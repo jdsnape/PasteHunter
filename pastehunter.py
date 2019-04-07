@@ -20,7 +20,7 @@ from postprocess import post_email
 
 
 from multiprocessing import Queue
-from persistqueue import FIFISQLiteQueue
+from persistqueue import FIFOSQLiteQueue
 
 VERSION = 1.0
 
