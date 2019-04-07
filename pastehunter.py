@@ -369,8 +369,8 @@ if __name__ == "__main__":
                 json.dump(paste_history, outfile)
             logger.info("Added {0} Items to the queue".format(queue_count))
 
-            for proc in processes:
-                proc.join(2)
+            for key, proc in processes.items():
+                proc.join()
 
             # Slow it down a little
             logger.info("Sleeping for " + str(conf['general']['run_frequency']) + " Seconds")
