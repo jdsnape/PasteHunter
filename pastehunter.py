@@ -282,6 +282,7 @@ def paste_scanner():
                 paste_data["pasteid"],
                 (end_time - start_time)
             ))
+            q.task_done()
 
 
 
@@ -307,7 +308,7 @@ if __name__ == "__main__":
     else:
         queue_file = 'queue.sqlite3'
     #q = FIFOSQLiteQueue(path=queue_file, multithreading=True)
-    q = Queue(queue_file, persistqueue.serializers.json)
+    q = Queue(queue_file)
     processes = {}
     n = 0
 
