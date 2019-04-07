@@ -301,7 +301,7 @@ if __name__ == "__main__":
 
     # Create Queue to hold paste URI's
     # Check for path in config file
-    if 'queue_file' in conf['general']['queue_file']:
+    if 'queue_file' in conf['general']:
         queue_file = conf['general']['queue_file']
     else:
         queue_file = 'queue.sqlite3'
