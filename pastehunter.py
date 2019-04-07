@@ -370,9 +370,6 @@ if __name__ == "__main__":
                 json.dump(paste_history, outfile)
             logger.info("Added {0} Items to the queue".format(queue_count))
 
-            for key, proc in processes.items():
-                proc.join()
-
             # Slow it down a little
             logger.info("Sleeping for " + str(conf['general']['run_frequency']) + " Seconds")
             sleep(conf['general']['run_frequency'])
@@ -382,5 +379,4 @@ if __name__ == "__main__":
         logger.info("Stopping Processes")
         for key, proc in processes.items():
             proc.terminate()
-            proc.join()
 
