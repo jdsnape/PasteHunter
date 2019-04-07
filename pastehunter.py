@@ -18,6 +18,7 @@ from urllib.parse import unquote_plus
 from common import parse_config
 from postprocess import post_email
 
+import persistqueue
 from persistqueue import Queue
 
 VERSION = 1.0
@@ -306,7 +307,7 @@ if __name__ == "__main__":
     else:
         queue_file = 'queue.sqlite3'
     #q = FIFOSQLiteQueue(path=queue_file, multithreading=True)
-    q = Queue(queue_file)
+    q = Queue(queue_file, persistqueue.serializers.json)
     processes = {}
     n = 0
 
