@@ -18,7 +18,7 @@ from urllib.parse import unquote_plus
 from common import parse_config
 from postprocess import post_email
 
-from persistqueue import FIFOSQLiteQueue
+from persistqueue import Queue
 
 VERSION = 1.0
 
@@ -305,7 +305,8 @@ if __name__ == "__main__":
         queue_file = conf['general']['queue_file']
     else:
         queue_file = 'queue.sqlite3'
-    q = FIFOSQLiteQueue(path=queue_file, multithreading=True)
+    #q = FIFOSQLiteQueue(path=queue_file, multithreading=True)
+    q = Queue()
     processes = {}
     n = 0
 
@@ -379,7 +380,7 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         logger.info("Stopping Processes")
-        for proc in processes:
+        for key, proc in processes.items():
             proc.terminate()
             proc.join()
 
