@@ -48,11 +48,13 @@ class TimeoutError(Exception):
     pass
 
 class timeout:
-    def __init__(self, seconds=3, error_message='Timeout'):
+    def __init__(self, seconds=10, error_message='Timeout'):
         self.seconds = seconds
         self.error_message = error_message
     def handle_timeout(self, signum, frame):
-        raise TimeoutError(self.error_message)
+        logger.error("Timeout on Thread!")
+        return
+        #raise TimeoutError(self.error_message)
     def __enter__(self):
         signal.signal(signal.SIGALRM, self.handle_timeout)
         signal.alarm(self.seconds)
