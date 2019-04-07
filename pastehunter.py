@@ -18,8 +18,6 @@ from urllib.parse import unquote_plus
 from common import parse_config
 from postprocess import post_email
 
-
-from multiprocessing import Queue
 from persistqueue import FIFOSQLiteQueue
 
 VERSION = 1.0
@@ -308,14 +306,16 @@ if __name__ == "__main__":
     else:
         queue_file = 'queue.sqlite3'
     q = FIFOSQLiteQueue(path=queue_file, multithreading=True)
-    processes = []
+    processes = {}
+    n = 0
 
     # Threads
     for i in range(5):
         m = multiprocessing.Process(target=paste_scanner)
         # Add new process to list so we can run join on them later. 
-        processes.append(m)
+        processes[n] = m
         m.start()
+        n += 1
 
     # Now Fill the Queue
     try:
@@ -323,6 +323,19 @@ if __name__ == "__main__":
             queue_count = 0
             
             # Check if the processors are active
+            for key, proc in processes.items():
+                if not proc.is_alive():
+                    logger.warning("Restaring a dead processor")
+                    # remove the dead reference
+                    del processes[key]
+                    
+                    # create a new one
+                    m = multiprocessing.Process(target=paste_scanner)
+                    # Add new process to list so we can run join on them later. 
+                    processes[key] = m
+                    m.start()
+                    
+                    
             # Paste History
             logger.info("Populating Queue")
             if os.path.exists('paste_history.tmp'):
@@ -363,7 +376,6 @@ if __name__ == "__main__":
             logger.info("Sleeping for " + str(conf['general']['run_frequency']) + " Seconds")
             sleep(conf['general']['run_frequency'])
         
-
 
     except KeyboardInterrupt:
         logger.info("Stopping Processes")
