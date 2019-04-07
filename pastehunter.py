@@ -52,8 +52,7 @@ class timeout:
         self.error_message = error_message
     def handle_timeout(self, signum, frame):
         logger.error("Timeout on Thread!")
-        return
-        #raise TimeoutError(self.error_message)
+        raise TimeoutError(self.error_message)
     def __enter__(self):
         signal.signal(signal.SIGALRM, self.handle_timeout)
         signal.alarm(self.seconds)
