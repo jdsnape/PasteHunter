@@ -306,7 +306,7 @@ if __name__ == "__main__":
     else:
         queue_file = 'queue.sqlite3'
     #q = FIFOSQLiteQueue(path=queue_file, multithreading=True)
-    q = Queue()
+    q = Queue(queue_file)
     processes = {}
     n = 0
 
