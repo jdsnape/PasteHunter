@@ -20,6 +20,7 @@ from postprocess import post_email
 
 
 from multiprocessing import Queue
+from persistqueue import FIFISQLiteQueue
 
 VERSION = 1.0
 
@@ -299,7 +300,12 @@ if __name__ == "__main__":
         sys.exit()
 
     # Create Queue to hold paste URI's
-    q = Queue()
+    # Check for path in config file
+    if 'queue_file' in conf['general']['queue_file']:
+        queue_file = conf['general']['queue_file']
+    else:
+        queue_file = 'queue.sqlite3'
+    q = FIFOSQLiteQueue(path=queue_file, multithreading=True)
     processes = []
 
     # Threads

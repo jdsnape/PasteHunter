@@ -122,7 +122,8 @@
     "format": "%(asctime)s [%(threadName)-12.12s] %(levelname)s:%(message)s"
   },
   "general": {
-    "run_frequency": 300
+    "run_frequency": 300,
+    "queue_file": "queue.sqlite3"
   },
   "post_process": {
     "post_email": {
