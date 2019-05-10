@@ -14,6 +14,7 @@ rule blacklist
         $f = /define\(.*?\)|require_once\(.*?\)/
         $g = "Technic Launcher is starting" // Minecraft mod dumps
         $h = "OTL logfile created on" // 
+	$i = "Chocolatey is running on Windows " //choco-bot gists
     condition:
         any of them
 
